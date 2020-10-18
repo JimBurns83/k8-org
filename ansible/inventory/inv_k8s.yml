@@ -1,0 +1,28 @@
+all:
+  hosts:
+    master.k8s:
+      ansible_user: "root"
+      ansible_port: "22"
+      ansible_host: "uk2c8r-01.gkup.co"
+    node1.k8s:
+      ansible_user: "root"
+      ansible_port: "22"
+      ansible_host: "uk2c8r-01.gkup.co"
+    node2.k8s:
+      ansible_user: "root"
+      ansible_port: "22"
+      ansible_host: "uk2c8r-01.gkup.co"
+
+  children:
+    bootstrap:
+      hosts:
+        master.k8s:
+        node1.k8s:
+        node2.k8s:  
+    k8smaster:
+      hosts:
+        master.k8s:
+    k8snode:
+      hosts:
+        node1.k8s:
+        node2.k8s:
