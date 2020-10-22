@@ -1,17 +1,17 @@
 all:
   hosts:
     master.k8s:
-      ansible_user: "root"
+      ansible_user: "ubuntu"
       ansible_port: "22"
-      ansible_host: "uk2c8r-01.gkup.co"
+      ansible_host: "192.168.178.96"
     node1.k8s:
-      ansible_user: "root"
+      ansible_user: "ubuntu"
       ansible_port: "22"
-      ansible_host: "uk2c8r-01.gkup.co"
+      ansible_host: "192.168.178.131"
     node2.k8s:
-      ansible_user: "root"
+      ansible_user: "ubuntu"
       ansible_port: "22"
-      ansible_host: "uk2c8r-01.gkup.co"
+      ansible_host: "192.168.178.132"
 
   children:
     bootstrap:
@@ -19,6 +19,15 @@ all:
         master.k8s:
         node1.k8s:
         node2.k8s:  
+    k8s:
+      children:
+        master:
+          hosts:
+            master.k8s:
+        node:
+          hosts:
+            node1.k8s:
+            node2.k8s:  
     k8smaster:
       hosts:
         master.k8s:
