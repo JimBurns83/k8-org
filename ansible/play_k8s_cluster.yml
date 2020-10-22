@@ -1,0 +1,11 @@
+---
+- hosts: k8smaster
+  gather_facts: true #now python is installed
+  become: true
+  roles:
+    - k8s-node
+- hosts: k8snode
+  gather_facts: true #now python is installed
+  become: true
+  roles:
+    - k8s-node
