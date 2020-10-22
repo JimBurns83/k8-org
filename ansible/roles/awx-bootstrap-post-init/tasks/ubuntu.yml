@@ -1,0 +1,39 @@
+---
+- name: Update Apt
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+  ignore_errors: true
+  register: aptupdate
+- name: Upgrade Apt
+  apt:
+    upgrade: dist
+  ignore_errors: true
+  when: aptupdate.changed
+- name: Install apt-transport-https
+  apt:
+    name: apt-transport-https # not required. A list of package names, like C(foo), or package specifier with version, like C(foo=1.0). Name wildcards (fnmatch) like C(apt*) and version wildcards like C(foo=1.0*) are also supported.
+    state: present # not required. choices: absent;build-dep;latest;present. Indicates the desired package state. C(latest) ensures that the latest version is installed. C(build-dep) ensures the package build dependencies are installed.
+    install_recommends: yes # not required. Corresponds to the C(--no-install-recommends) option for I(apt). C(yes) installs recommended packages.  C(no) does not install recommended packages. By default, Ansible will use the same defaults as the operating system. Suggested packages are never installed.
+  ignore_errors: true
+- name: Enable Universe Repo
+  apt_repository:
+    repo: "deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} universe"
+    state: present
+    update_cache: yes
+    validate_certs: yes
+  ignore_errors: yes # Possible temp issue with ubuntu archives down
+- name: Install python3-pip
+  apt:
+    name: ["python3-pip", "aptitude"] # not required. A list of package names, like C(foo), or package specifier with version, like C(foo=1.0). Name wildcards (fnmatch) like C(apt*) and version wildcards like C(foo=1.0*) are also supported.
+    state: present # not required. choices: absent;build-dep;latest;present. Indicates the desired package state. C(latest) ensures that the latest version is installed. C(build-dep) ensures the package build dependencies are installed.
+    install_recommends: yes # not required. Corresponds to the C(--no-install-recommends) option for I(apt). C(yes) installs recommended packages.  C(no) does not install recommended packages. By default, Ansible will use the same defaults as the operating system. Suggested packages are never installed.
+- name: get metadata
+  ec2_metadata_facts:
+  ignore_errors: yes
+- name: collect facts
+  set_fact:
+      "{{item.key}}": "{{item.value}}" # required. The C(set_fact) module takes key=value pairs as variables to set in the playbook scope. Or alternatively, accepts complex arguments using the C(args:) statement.
+      cacheable: yes # not required. This boolean indicates if the facts set will also be added to the fact cache, if fact caching is enabled.
+  with_dict: "{{addfacts}}"
+  ignore_errors: true

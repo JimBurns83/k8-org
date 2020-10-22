@@ -1,0 +1,8 @@
+---
+# tasks file for awx-bootstrap-init
+- name: Ensure apt is up to date
+  raw: test -e /usr/bin/python || (apt update)
+  changed_when: false
+- name: Ensure Python is installed.
+  raw: test -e /usr/bin/python || (apt install -qy python3-minimal python-apt)
+  changed_when: false
