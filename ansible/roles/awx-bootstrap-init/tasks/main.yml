@@ -1,5 +1,6 @@
 ---
 # tasks file for awx-bootstrap-init
+- include_tasks: fix-apt.yml
 - name: Ensure apt is up to date
   raw: test -e /usr/bin/python || (apt update)
   changed_when: false

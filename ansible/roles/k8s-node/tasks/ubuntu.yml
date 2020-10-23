@@ -2,3 +2,4 @@
 - include_tasks: master.yml
   when: k8smaster | default(false)
 - include_tasks: node-join.yml
+  when: k8smaster == false | default(false)

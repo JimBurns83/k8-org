@@ -20,6 +20,10 @@
     update_cache: yes
   notify:
     - docker status
+- name: docker start
+  service: 
+    name: docker 
+    state: started
 - name: Remove swapfile from /etc/fstab
   mount:
     name: "{{ item }}"
@@ -32,13 +36,16 @@
 - name: Disable swap
   command: swapoff -a
   when: ansible_swaptotal_mb > 0
+  
 - name: Add an apt signing key for Kubernetes
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
 - name: Adding apt repository for Kubernetes
   apt_repository:
-    repo: deb https://apt.kubernetes.io/ kubernetes-{{ansible_distribution_release}} main
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+#    repo: deb https://apt.kubernetes.io/ kubernetes-{{ansible_distribution_release}} main
+#apparently they don't even have bionic yet.
     state: present
     filename: kubernetes.list
 - name: Install Kubernetes binaries
@@ -50,6 +57,7 @@
   lineinfile:
     path: /etc/default/kubelet
     line: KUBELET_EXTRA_ARGS=--node-ip={{ ansible_default_ipv4.address }}
+    create: yes
 - name: Restart kubelet
   service:
     name: kubelet

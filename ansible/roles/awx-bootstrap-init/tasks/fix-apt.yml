@@ -1,0 +1,12 @@
+#sudo dpkg --configure -a
+#apt --fix-broken install
+
+- name: Check errors during package installation
+  raw: sudo dpkg --configure -a
+
+- name: fix errors during package installation
+  raw: sudo apt install python3-apt -y
+  #notify: Fix problems with packages
+- name: fix errors during package installation
+  raw: sudo apt --fix-broken install -y
+

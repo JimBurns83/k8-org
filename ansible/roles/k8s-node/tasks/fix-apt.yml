@@ -1,0 +1,10 @@
+#sudo dpkg --configure -a
+#apt --fix-broken install
+
+- name: Check errors during package installation
+  shell: sudo dpkg --configure -a
+  register: result
+  #notify: Fix problems with packages
+- name: fix errors during package installation
+  shell: sudo apt --fix-broken install -y
+  register: result
