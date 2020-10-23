@@ -4,14 +4,17 @@ all:
       ansible_user: "ubuntu"
       ansible_port: "22"
       ansible_host: "192.168.178.96"
+      ansible_sudo_pass: LetMeIn123
     node1.k8s:
       ansible_user: "ubuntu"
       ansible_port: "22"
       ansible_host: "192.168.178.131"
+      ansible_sudo_pass: LetMeIn123
     node2.k8s:
       ansible_user: "ubuntu"
       ansible_port: "22"
       ansible_host: "192.168.178.132"
+      ansible_sudo_pass: LetMeIn123
 
   children:
     bootstrap:

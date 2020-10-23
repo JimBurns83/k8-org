@@ -1,2 +1,4 @@
 ---
 # defaults file for k8s-node
+master_ip: "192.168.178.96"
+pod_network_cidr: "10.88.0.0/16"
