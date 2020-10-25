@@ -7,18 +7,27 @@
   copy:
     content: kubeadm init --apiserver-advertise-address="{{master_ip}}" --apiserver-cert-extra-sans="{{master_ip}}"  --node-name k8s-master --pod-network-cidr={{pod_network_cidr}}
     dest: /tmp/k8s_initcommand
+
+- name: initfile calico
+  copy:
+    content: kubectl create -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
+    dest: /tmp/k8s_calico
 #- name: Setup kubeconfig for vagrant user
 #  command: "{{ item }}"
 #  with_items:
 #     - mkdir -p /home/ubuntu/.kube
 #     - cp -i /etc/kubernetes/admin.conf /home/ubuntu/.kube/config
 #     - chown ubuntu:ubuntu /home/ubuntu/.kube/config
+- include_tasks: admin.yml
 - name: Generate join command
   command: kubeadm token create --print-join-command
   register: join_command
-#- name: Install calico pod network
-#  become: false
-#  #command: kubectl create -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
+- name: Install calico pod network
+  become: false
+  #command: kubectl create -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
+  command: kubectl create -f {{calico_url}}
+#curl https://docs.projectcalico.org/manifests/calico.yaml -O
+
 #  #https://docs.projectcalico.org/manifests/calico-typha.yaml
 #  command: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
 #  #ignore_errors: yes

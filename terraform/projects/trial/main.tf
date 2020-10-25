@@ -1,15 +1,13 @@
 provider "kubernetes" {
    load_config_file = "false"
 
-  host = "http://192.168.178.53:2375"
-
-  username = "username"
-  password = "password"
-  
+  host = "https://192.168.178.96:6443"
+  insecure = true
+  token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IlR5T1dPajNrd3U3U0c0dEdxRkduQ0FCRHQ2dGgxUVI2SkNTOEJ3bllvV1UifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJrOHNhZG1pbi10b2tlbi1jbmRndCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrOHNhZG1pbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImMxMmUyMmNjLTc4MWMtNGQwOS1hZjgxLTYyZGM4NzQwOWMxMyIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTprOHNhZG1pbiJ9.vMF8Imihsp39aVv0AqZdD8PsKypZ_kOEjbn-HGhWgECDv--suX5fdxV4RImn2p2Tm97GyrsL4sEHTn5aZPPps9nsA2oy1AJVMBTq3gmvQpG8FDcAmB1lVVwPUc4qyY7hV2V-xhBPrbMg7RJ0AnZdOQE21Vbr6n5KUSEACRHvQL1rIiasgbD6y5g4oxQEpknAHr6UdkOYe-7fBVhX3U48O--xg_ilErxqJoTeZQrhMY0vJXnTEsPA_pvvcn-smj42cHc8YfEknpw19KBQKjAc84ltPAHLp178kmXG_9gGAJftQM6tTFNvC_S83exZeoCkCqyXJjtyK106vK9rtbsiOQ"
 }
 
 resource "kubernetes_namespace" "example" {
   metadata {
-    name = "my-first-namespace"
+    name = "tf-first-namespace"
   }
 }
